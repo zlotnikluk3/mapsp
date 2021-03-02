@@ -25,21 +25,21 @@ public class AppController {
 	@Autowired
 	private FbController wc;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String goMap(Model model) {
 		List<Eventt> events = service.listAll();
 		model.addAttribute("events", events);
 
-		return "/index";
+		return "index";
 	}
 
-	@RequestMapping(value = "/coor/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "coor/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Eventt getCoor(@PathVariable(name = "id") long id) {
 		return service.get(id);
 	}
 
-	@RequestMapping(value = "/last", method = RequestMethod.GET)
+	@RequestMapping(value = "last", method = RequestMethod.GET)
 	@ResponseBody
 	public long getLast() {
 		List<Eventt> l = service.listAll();
@@ -47,7 +47,7 @@ public class AppController {
 		return e.getId();
 	}
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "edit/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String editEv(@PathVariable(name = "id") long id, @RequestParam("opis") String op,
 			@RequestParam("latt") String lat, @RequestParam("lngg") String lng) {
 		service.update(id, op, lat, lng);
@@ -55,7 +55,7 @@ public class AppController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String saveEv(@RequestParam("opis") String op, @RequestParam("latt") String lat,
 			@RequestParam("lngg") String lng) {
 		service.save(new Eventt(op, lat, lng));
