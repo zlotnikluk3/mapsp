@@ -25,25 +25,32 @@
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
-	<div class="row top-buffer">
-		<div class="col-sm-8">
-			<form id="sv" th:action="@{/save}" method="post">
-				<textarea id="ta" rows="6" cols="70"></textarea>
-				<button class="btn btn-secondary" id="bsv" type="button">Send</button>
-				<button class="btn btn-secondary" id="bedi" type="button">Edit</button>
+
+	<div class="container">
+		<div class="row top-buffer">
+			<form th:action="@{/logout}" method="post">
+				<input class="btn btn-secondary" type="submit" value="Logout" />
 			</form>
 		</div>
-		<div class="col-sm-4">
-			<form th:action="@{/delfromlist}" method="post">
-				<select class="form-control" id="task" name="task">
-					<option value="0">Wybierz zdarzenie</option>
-					<option th:each="event : ${events}" th:value="${event.id}"
-						th:text="${event.opis}"></option>
-				</select>
-				<button id="delbtn" class="btn btn-secondary" type="button">Delete</button>
-			</form>
+		<div class="row top-buffer">
+			<div class="col-sm-8">
+				<form id="sv" th:action="@{/save}" method="post">
+					<textarea id="ta" rows="6" cols="70"></textarea>
+					<button class="btn btn-secondary" id="bsv" type="button">Send</button>
+					<button class="btn btn-secondary" id="bedi" type="button">Edit</button>
+				</form>
+			</div>
+			<div class="col-sm-4">
+				<form th:action="@{/delfromlist}" method="post">
+					<select class="form-control" id="task" name="task">
+						<option value="0">Wybierz zdarzenie</option>
+						<option th:each="event : ${events}" th:value="${event.id}"
+							th:text="${event.opis}"></option>
+					</select>
+					<button id="delbtn" class="btn btn-secondary" type="button">Delete</button>
+				</form>
+			</div>
 		</div>
-	</div>
 	</div>
 	<input id="pac-input" class="controls" type="text"
 		placeholder="Search Box" />
