@@ -2,6 +2,7 @@ package com.zlotluk.MaPSP.Notifications;
 
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,24 +10,35 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zlotluk.MaPSP.model.Tokenn;
+import com.zlotluk.MaPSP.service.TokenService;
+
 @RestController
 public class FbController {
 
 	@Autowired
 	private AndroidPushNotificationsService androidPushNotificationsService;
 
-	private String deviceToken = "cUD25UORY0s:APA91bF0w7rfL0KyBi43NNJVH56QqZvr635llA531GAdCxuEYQibTbinlMapfFjYXGum0IV2FVB9iC5fUl"
-			+ "-0rIjjMjPSRTgO3FZ3DcRI0dJcUitEyoaXfFE1bgS4qM0AnL3KAd9RMH6S";
+	@Autowired
+	private TokenService tokenService;
 
 	public ResponseEntity<String> send(String zd, String opis, String lat, String lng) throws JSONException {
 
 		JSONObject json = new JSONObject();
 
+		JSONArray ja = new JSONArray();
+		for (Tokenn t : tokenService.listAll()) {
+			ja.put(t.getToken());
+		}
+
+		if (ja.length() == 0)
+			return null;
+
 		try {
 
 			String op = Znaki.bezZn(opis);
 
-			json.put("to", deviceToken.trim());
+			json.put("registration_ids", ja);
 
 			JSONObject data = new JSONObject();
 			data.put("lat", lat);
@@ -49,15 +61,5 @@ public class FbController {
 		} catch (IOException e) {
 		}
 		return new ResponseEntity<>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
-	}
-
-	public String convertStringToUTF8(String s) {
-		String out = null;
-		try {
-			out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
-		} catch (java.io.UnsupportedEncodingException e) {
-			return null;
-		}
-		return out;
 	}
 }

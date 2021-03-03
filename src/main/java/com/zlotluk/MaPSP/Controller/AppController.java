@@ -64,7 +64,7 @@ public class AppController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/delfromlist/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "delfromlist/{id}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String deleteFromList(@PathVariable(name = "id") long id) {
 		if (id != 0)
 			service.delete(id);
