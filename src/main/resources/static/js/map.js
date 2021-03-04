@@ -155,6 +155,7 @@ $(document).ready(function() {
 						lngg: lng
 					},
 					success: function(data) {
+						$("#ta").val("");
 						$("#task option:selected").remove();
 						infowindow.close();
 						placeMarkerAndPanTo(null, map);
