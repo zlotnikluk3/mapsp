@@ -189,7 +189,7 @@ $(document).ready(function() {
 						content: 'Latitude: ' + lat + '<br>Longitude: ' + lng
 					});
 					position = new google.maps.LatLng(lat, lng);
-					$("#ta").val(txt.substr(txt.indexOf(" ") + 1));
+					$("#ta").val(txt);
 					placeMarkerAndPanTo(position, map);
 				}
 			});

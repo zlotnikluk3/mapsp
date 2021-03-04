@@ -21,7 +21,7 @@ public class AppController {
 
 	@Autowired
 	private EventService service;
-	
+
 	@Autowired
 	private FbController wc;
 
@@ -51,7 +51,7 @@ public class AppController {
 	public String editEv(@PathVariable(name = "id") long id, @RequestParam("opis") String op,
 			@RequestParam("latt") String lat, @RequestParam("lngg") String lng) {
 		service.update(id, op, lat, lng);
-		wc.send("Aktualizacja zdarzenia",op,lat,lng);
+		wc.send("Aktualizacja zdarzenia", id, op, lat, lng);
 		return "redirect:/";
 	}
 
@@ -59,7 +59,9 @@ public class AppController {
 	public String saveEv(@RequestParam("opis") String op, @RequestParam("latt") String lat,
 			@RequestParam("lngg") String lng) {
 		service.save(new Eventt(op, lat, lng));
-		wc.send("Nowe zdarzenie",op,lat,lng);
+		List<Eventt> le = service.listAll();
+		int ls = le.size() - 1;
+		wc.send("Nowe zdarzenie", le.get(ls).getId(), op, lat, lng);
 
 		return "redirect:/";
 	}
@@ -70,5 +72,5 @@ public class AppController {
 			service.delete(id);
 		return "redirect:/";
 	}
-	
+
 }

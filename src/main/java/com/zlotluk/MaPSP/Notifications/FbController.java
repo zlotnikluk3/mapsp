@@ -22,7 +22,7 @@ public class FbController {
 	@Autowired
 	private TokenService tokenService;
 
-	public ResponseEntity<String> send(String zd, String opis, String lat, String lng) throws JSONException {
+	public ResponseEntity<String> send(String zd, long id, String opis, String lat, String lng) throws JSONException {
 
 		JSONObject json = new JSONObject();
 
@@ -41,6 +41,7 @@ public class FbController {
 			json.put("registration_ids", ja);
 
 			JSONObject data = new JSONObject();
+			data.put("id", id);
 			data.put("lat", lat);
 			data.put("lng", lng);
 			data.put("op", op);
@@ -48,7 +49,7 @@ public class FbController {
 			JSONObject info = new JSONObject();
 			info.put("title", zd); // Notification title
 			info.put("body", op); // Notification
-			info.put("message", op); // body
+			info.put("tag", id); // body
 			json.put("notification", info);
 		} catch (JSONException e1) {
 			e1.printStackTrace();
