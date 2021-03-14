@@ -28,7 +28,8 @@ public class FbController {
 
 		JSONArray ja = new JSONArray();
 		for (Tokenn t : tokenService.listAll()) {
-			ja.put(t.getToken());
+			if (t.isSaved())
+				ja.put(t.getToken());
 		}
 
 		if (ja.length() == 0)

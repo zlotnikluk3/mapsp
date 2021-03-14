@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>MaPSP Admin</title>
+<link href="css/map.css" rel="stylesheet">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div id="success" class="alert alert-success">
+		<strong id="suctxt"></strong>
+		<button type="button" class="close" aria-label="Close"
+			onclick="this.parentElement.style.display='none';">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="container">
+		<div class="row top-buffer">
+			<form th:action="@{/}" method="post">
+				<button class="btn btn-secondary" type="submit">Back</button>
+			</form>
+		</div>
+		<div>
+			<table id="tab " class="table table-striped table-primary">
+
+				<thead class="ttop">
+					<tr class="table-info">
+						<td width="20px"><b> TOKEN</b></td>
+						<td class="text-center"><b>ACCESS</b></td>
+						<td><b>USER</b></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="token : ${tokens}" th:style="'font-weight: normal;'">
+
+						<td th:text="${#strings.substring(token.token,0,30)}"></td>
+						<td class="text-center"><input type="checkbox" id="chbx"
+							th:checked="${token.saved} ? 'checked'"
+							class="form-check-input chbx-copy"></td>
+						<td><input class="form-control txt-copy" type="text"
+							th:value="${token.nam}"></td>
+						<td><button class="btn btn-primary btn-copy"
+								th:attr="at1=${token.token}, at2=${token.saved}, at3=${token.nam}">Update</button>
+							<button class="btn btn-danger btn-del"
+								th:attr="att=${token.token}">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script src="js/tok.js"></script>
+</body>
+</html>

@@ -19,4 +19,16 @@ public class TokenService {
 	public List<Tokenn> listAll() {
 		return repo.findAll();
 	}
+
+	public void save(Tokenn token) {
+		repo.save(token);
+	}
+
+	public void update(String tok, boolean sav, String nam) {
+		repo.save(new Tokenn(tok, sav, nam));
+	}
+
+	public void delete(String tok) {
+		repo.deleteById(tok);
+	}
 }

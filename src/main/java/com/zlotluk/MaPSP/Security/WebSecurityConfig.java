@@ -1,5 +1,8 @@
 package com.zlotluk.MaPSP.Security;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +22,15 @@ import com.zlotluk.MaPSP.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private UserService service;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("css/*.css", "js/*.js").permitAll().anyRequest().authenticated().and()
-				.formLogin().permitAll().and().logout().permitAll().and().csrf().disable();
+		http.authorizeRequests().antMatchers("css/*.css", "js/*.js", "/").hasAnyAuthority("USER", "ADMIN")
+				.antMatchers("/tokens").hasAuthority("ADMIN").anyRequest().authenticated().and().formLogin().permitAll()
+				.and().logout().permitAll().and().exceptionHandling().accessDeniedPage("/403").and().csrf().disable();
 	}
 
 	@Bean
@@ -37,9 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	@Override
 	protected UserDetailsService userDetailsService() {
-		Userr u = service.first();
-		UserDetails user1 = User.withUsername(u.getUser()).password(u.getPass()).roles("USER").build();
-
-		return new InMemoryUserDetailsManager(user1);
+		Userr u, a;
+		u = service.first();
+		a = service.adm();
+		List<UserDetails> lu = new ArrayList<UserDetails>();
+		lu.add(User.withUsername(u.getUser()).password(u.getPass()).authorities("USER").build());
+		lu.add(User.withUsername(a.getUser()).password(a.getPass()).authorities("ADMIN").build());
+		return new InMemoryUserDetailsManager(lu);
 	}
+
 }

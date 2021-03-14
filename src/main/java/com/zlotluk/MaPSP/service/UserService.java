@@ -23,5 +23,9 @@ public class UserService {
 	public Userr first() {
 		return repo.findAll().get(0);
 	}
+	
+	public Userr adm() {
+		return repo.findAll().get(1);
+	}
 
 }

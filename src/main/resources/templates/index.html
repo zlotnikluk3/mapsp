@@ -29,7 +29,9 @@
 	<div class="container">
 		<div class="row top-buffer">
 			<form th:action="@{/logout}" method="post">
-				<input class="btn btn-secondary" type="submit" value="Logout" />
+				<button class="btn btn-secondary" type="submit">Logout</button>
+				<button class="btn btn-secondary" id="badm" type="button">Admin</button>
+				<input id="hid" type="hidden" th:value="${hide}" name="hid" />
 			</form>
 		</div>
 		<div class="row top-buffer">

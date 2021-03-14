@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zlotluk.MaPSP.Notifications.FbController;
 import com.zlotluk.MaPSP.model.Eventt;
+import com.zlotluk.MaPSP.model.Tokenn;
 import com.zlotluk.MaPSP.service.EventService;
+import com.zlotluk.MaPSP.service.TokenService;
 
 @Controller
 public class AppController {
@@ -23,13 +27,35 @@ public class AppController {
 	private EventService service;
 
 	@Autowired
+	private TokenService tservice;
+
+	@Autowired
 	private FbController wc;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String goMap(Model model) {
 		List<Eventt> events = service.listAll();
 		model.addAttribute("events", events);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth.getName().equals("jrg1bstok")) {
+			model.addAttribute("hide", "t");
+		} else {
+			model.addAttribute("hide", "f");
+		}
+		return "index";
+	}
 
+	@RequestMapping(value = "tokens", method = RequestMethod.GET)
+	public String goTok(Model model) {
+		List<Tokenn> tokens = tservice.listAll();
+		model.addAttribute("tokens", tokens);
+		return "tokens";
+	}
+
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String back(Model model) {
+		List<Eventt> events = service.listAll();
+		model.addAttribute("events", events);
 		return "index";
 	}
 
@@ -73,4 +99,20 @@ public class AppController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "deleteTok/{tok}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String DeleteTok(@PathVariable(name = "tok") String tok) {
+		tservice.delete(tok);
+		return "redirect:/tokens";
+	}
+
+	@RequestMapping(value = "upTok/{tok}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public String upTok(@PathVariable(name = "tok") String tok, @RequestParam("saved") String saved,
+			@RequestParam("nam") String nam) {
+		if (saved.equals("true")) {
+			tservice.update(tok, true, nam);
+		} else {
+			tservice.update(tok, false, nam);
+		}
+		return "redirect:/tokens";
+	}
 }

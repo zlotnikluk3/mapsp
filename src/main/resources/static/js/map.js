@@ -87,6 +87,10 @@ function placeMarkerAndPanTo(latLng, map) {
 
 $(document).ready(function() {
 	$('#bedi').attr("disabled", true);
+	if ($("#hid").val() == "t") {
+		$("#badm").hide();
+	}
+	else { $("#badm").show(); }
 	$('#success').hide();
 	$("#bsv").click(function(event) {
 		event.preventDefault();
@@ -109,7 +113,6 @@ $(document).ready(function() {
 							$("#task").append(new Option($("#ta").val(), value));
 							$("#task").val(value);
 							$('#bedi').attr("disabled", false);
-							$('#result').val("Wysłano");
 							$('#suctxt').text("Wysłano");
 							$('#success').show();
 						}
@@ -136,7 +139,6 @@ $(document).ready(function() {
 			success: function(data) {
 				var i = $("select#task").val()
 				$('#task option[value=' + i + ']').text($("#ta").val());
-				$('#result').val("Zedytowano");
 				$('#suctxt').text("Zedytowano");
 				$('#success').show();
 			}
@@ -144,6 +146,7 @@ $(document).ready(function() {
 	});
 
 	$("#delbtn").click(function(event) {
+		event.preventDefault();
 		if ($("#task").val() != 0) {
 			if (confirm("Czy na pewno chcesz usunąć?")) {
 				$.ajax({
@@ -166,6 +169,10 @@ $(document).ready(function() {
 				return false;
 			}
 		}
+	});
+
+	$("#badm").click(function(event) {
+		window.location.href = 'tokens';
 	});
 
 	$('select').on('change', function(event) {
