@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
 	$('#success').hide();
 	$('.txt-copy').on('input', function(e) {
 		$(this).closest('tr').find('.btn-copy').attr("at3", $(this).val());
@@ -9,35 +9,23 @@ $(document).ready(function() {
 		else { $(this).closest('tr').find('.btn-copy').attr("at2", "false"); }
 	})
 
-	$(document).on("click", ".btn-copy", function() {
+	$(".btn-copy").click(function() {
 		var value1 = $(this).attr('at1');
 		var value2 = $(this).attr('at2');
 		var value3 = $(this).attr('at3');
 
-		$.ajax({
-			url: "/upTok/" + value1 + "/",
-			type: 'POST',
-			data: {
-				saved: value2,
-				nam: value3
-			},
-			success: function(data) {
-				$('#suctxt').text("Zedytowano");
-				$('#success').show();
-			}
-		})
+		$.post("/upTok/" + value1 + "/", { saved: value2, nam: value3 }, res => {
+			$('#suctxt').text("Zedytowano");
+			$('#success').show();
+		});
 	});
 
-	$(document).on("click", ".btn-del", function() {
+	$(".btn-del").click(function() {
 		var vt = $(this).attr('att');
 		if (confirm("Czy na pewno chcesz usunąć?")) {
-			$.ajax({
-				url: "/deleteTok/" + vt + "/",
-				type: 'POST',
-				success: function() {
-					location.reload();
-				}
-			})
+			$.post("/deleteTok/" + vt + "/", { page: 1, key: "94381" }, res => {
+				location.reload();
+			});
 		}
 	});
 });
