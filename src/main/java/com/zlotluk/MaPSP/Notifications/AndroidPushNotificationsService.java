@@ -13,9 +13,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AndroidPushNotificationsService {
 
-	private static final String FIREBASE_API_URL = "https://fcm.googleapis.com/fcm/send";
-	private static final String FIREBASE_SERVER_KEY = "AAAALW7neJQ:APA91bG200GM6Kfbj5wVNtPRW650LchKj-ey0ECKcJgGXTQDLaikF58Le_"
-			+ "pldAypwMuVsjumtip7Cx202S6NSdBul_c6kWVogNVYQYkSQsL-nI4IGvPUIvSZLiu-6T27oHKoqhN4FqPA";
+	private static final String FIREBASE_API_URL = "xxx";
+	private static final String FIREBASE_SERVER_KEY = "xxx";
 
 	public String sendPushNotification(JSONObject json) throws IOException {
 
